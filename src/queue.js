@@ -13,21 +13,50 @@ const { NotImplementedError } = require('../extensions/index.js');
  * queue.dequeue(); // returns the top element from queue and deletes it, returns 1
  * queue.getUnderlyingList() // returns { value: 3, next: null }
  */
-class Queue {
+ class ListNode {
+  constructor(x) {
+    this.value = x;
+    this.next = null;
+  }
+}
 
-  getUnderlyingList() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+
+class Queue {
+  constructor(){
+    this.first = null;
+    this.end = null;
   }
 
-  enqueue(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  getUnderlyingList() {
+    if(!this.first){ //если нет первого элемента
+      return null
+    }
+    return this.first
+  }
+
+  enqueue(value) {
+    let listNode = new ListNode(value)
+    if(!this.first){    
+      this.first = listNode //если нет первого элемента, то вставленный узел - и начало и конец очереди
+      this.end = listNode
+    } else{
+      this.end.next = listNode //добавить узел за последним узлом
+      this.end = listNode  // назначаем бывший последний узел последним
+    }
   }
 
   dequeue() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    if(!this.first){
+      return null
+    }
+    let head = this.first   //назначим переменную для сохранения начала очереди
+    if(this.first === this.end){
+      this.end = null
+    }
+    this.first = this.first.next //перемещаем ссылку на след узел
+
+    return head.value
+
   }
 }
 
